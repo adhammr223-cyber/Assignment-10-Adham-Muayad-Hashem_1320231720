@@ -69,6 +69,8 @@ function renderCard($person)
 $totalPeople = count($people);
 $currentDate = date("F j, Y");
 $searchQuery = $_GET["search"] ?? "";
+// A URL may contain search[]=... instead of a normal text value.
+$searchQuery = is_string($searchQuery) ? trim($searchQuery) : "";
 
 if ($searchQuery != "") {
     $people = array_filter($people, function ($person) use ($searchQuery) {
@@ -228,7 +230,7 @@ if ($searchQuery != "") {
     </div>
 
     <form method="GET">
-        <input type="text" name="search" placeholder="Search by name" value="<?php echo htmlspecialchars($searchQuery); ?>">
+        <input type="text" aria-label="Search by name" name="search" placeholder="Search by name" value="<?php echo htmlspecialchars($searchQuery); ?>">
         <button type="submit">Search</button>
     </form>
 
